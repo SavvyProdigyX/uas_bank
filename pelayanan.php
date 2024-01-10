@@ -11,16 +11,16 @@ if (isset($_POST['btnSimpan'])) {
     if ($is_duplicate > 0) {
         // Data sudah ada, tampilkan pesan alert
         echo "<script>
-            alert('Data dengan ID '$id_pelayanan' sudah ada. Silakan gunakan ID yang berbeda.');
-            document.location = 'buka_rekening.php';
+            alert('Data dengan ID  sudah ada. Silakan gunakan ID yang berbeda.');
+            document.location = 'pelayanan.php';
         </script>";
     } else {
         // Data belum ada, lakukan penyimpanan
-        $simpan = mysqli_query($koneksi, "INSERT INTO pelayanan (id_pelayanan, nama , tanggal_pelayanan , jam_oprasional , deskripsi , id_nasabah , cs_id_cs , jenis_pelayanan_id_jenis) VALUES (
+        $simpan = mysqli_query($koneksi, "INSERT INTO pelayanan (id_pelayanan, nama , tanggal_pelayanan , jam_oprasional , deskripsi , id_nasabah , id_cs , id_jenis) VALUES (   
             '{$_POST['id_pelayanan']}',
             '{$_POST['nama']}',
-            '{$_POST['tgl_pelayanan']}',
-            '{$_POST['jam_oprasional']}',
+            '{$_POST['tglPelayanan']}',
+            '{$_POST['jam_operasional']}',
             '{$_POST['deskripsi']}',
             '{$_POST['id_nasabah']}',
             '{$_POST['id_cs']}',
@@ -53,12 +53,12 @@ if (isset($_POST['btnUpdate'])) {
             // Ada duplikasi, update data yang sudah ada
             $update_existing = mysqli_query($koneksi, "UPDATE pelayanan SET
                                             nama = '$_POST[nama]',
-                                            tanggal_pelayanan = '$_POST[tgl_pelayanan]',
-                                            jam_oprasional = '$_POST[jam_oprasional]',
+                                            tanggal_pelayanan = '$_POST[tglPelayanan]',
+                                            jam_oprasional = '$_POST[jam_operasional]',
                                             deskripsi = '$_POST[deskripsi]',
                                             id_nasabah = '$_POST[id_nasabah]',
-                                            cs_id_cs = '$_POST[id_cs]',
-                                            jenis_pelayanan_id_jenis = '$_POST[jenis_pelayanan]'
+                                            id_cs = '$_POST[id_cs]',
+                                            id_jenis = '$_POST[jenis_pelayanan]'
                                             WHERE id_pelayanan = '$id_pelayanan'");
             if ($update_existing) {
                 echo "<script>
@@ -195,7 +195,7 @@ function generateNewId($koneksi)
         // Jika ada data di database,
         $last_number = substr($max_id, -4);
         $new_number = intval($last_number) + 1;
-        return 'SRC440' . str_pad($new_number, 4, '0', STR_PAD_LEFT);
+        return 'SRC46' . str_pad($new_number, 4, '0', STR_PAD_LEFT);
     }
 }
 
@@ -377,10 +377,10 @@ $new_id = generateNewId($koneksi);
                                             class="block mb-1 ml-2 text-sm font-medium text-gray-900 dark:text-white">
                                             Id Nasabah
                                         </label>
-                                        <input type="text" id="newIdInput"
+                                        <input type="number" id="newIdInput"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                             placeholder="Masukkan Id Nasabah" name="id_nasabah"
-                                            value="<?= $vIdnasabah ?>" value="<?= $new_id ?>" readonly id="newIdInput">
+                                            value="<?= $vIdnasabah ?>">
                                     </div>
 
                                     <div>
